@@ -1,0 +1,6 @@
+@TJRJ.Usuarios.API_HostAddress = http://localhost:5107
+
+GET {{TJRJ.Usuarios.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
