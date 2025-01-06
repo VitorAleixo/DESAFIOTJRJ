@@ -12,4 +12,8 @@
     <Folder Include="UseCases\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TJRJ.TipoVenda.Domain\TJRJ.TipoVenda.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

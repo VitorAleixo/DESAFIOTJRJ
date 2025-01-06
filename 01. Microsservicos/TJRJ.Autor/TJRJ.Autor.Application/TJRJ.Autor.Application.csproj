@@ -12,4 +12,8 @@
     <Folder Include="DTOs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TJRJ.Domain\TJRJ.Autor.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

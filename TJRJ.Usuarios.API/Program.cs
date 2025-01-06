@@ -1,11 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+using TJRJ.Usuarios.Application.Interfaces;
+using TJRJ.Usuarios.Application.UseCases;
+using TJRJ.Usuarios.Infrastructure.Context;
+using TJRJ.Usuarios.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<UsuarioDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>();
+builder.Services.AddScoped<IJwtRepository, JwtRepository>();
 
 var app = builder.Build();
 

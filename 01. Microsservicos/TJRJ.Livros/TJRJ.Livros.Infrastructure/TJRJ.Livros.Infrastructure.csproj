@@ -13,4 +13,8 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TJRJ.Livros.Application\TJRJ.Livros.Application.csproj" />
+  </ItemGroup>
+
 </Project>

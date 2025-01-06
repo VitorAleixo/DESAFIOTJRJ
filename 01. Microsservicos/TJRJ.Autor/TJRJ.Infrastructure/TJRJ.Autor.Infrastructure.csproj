@@ -13,4 +13,8 @@
     <Folder Include="Configurations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TJRJ.Autor.Application\TJRJ.Autor.Application.csproj" />
+  </ItemGroup>
+
 </Project>

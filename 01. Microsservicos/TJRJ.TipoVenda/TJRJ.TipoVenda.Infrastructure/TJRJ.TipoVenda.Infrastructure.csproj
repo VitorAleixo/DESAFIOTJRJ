@@ -13,4 +13,8 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TJRJ.TIpoVenda.Application\TJRJ.TIpoVenda.Application.csproj" />
+  </ItemGroup>
+
 </Project>
