@@ -42,6 +42,17 @@ namespace TJRJ.Livros.Application.UseCases.Relations
                 Valor = livroTipoVendaDto.Valor
             };
 
+            var tiposVenda = await _livroTipoVendaRepository.ObterTipoVendaAsync(livroTipoVendaDto.CodI);
+
+            foreach(var ITEMS in tiposVenda)
+            {
+                if(ITEMS.TipoVenda_CodI == livroTipoVendaDto.TipoVenda_CodI)
+                {
+                    throw new ArgumentException("Já existe esse tipo de venda cadastrado para este livro!");
+                }
+
+            }
+            
             await _livroTipoVendaRepository.AdicionarAsync(tipoVenda);
         }
 
