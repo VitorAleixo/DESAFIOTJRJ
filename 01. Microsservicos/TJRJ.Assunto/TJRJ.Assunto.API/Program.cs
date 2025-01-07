@@ -1,9 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using TJRJ.Assunto.Infrastructure.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 
+builder.Services.AddDbContext<AssuntoDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 //builder.Services.AddDbContext<AssuntosDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 //);

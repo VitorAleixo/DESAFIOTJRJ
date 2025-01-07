@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TJRJ.Assunto\TJRJ.Assunto.Application\TJRJ.Assunto.Application.csproj" />
-    <ProjectReference Include="..\..\TJRJ.Assunto\TJRJ.Assunto.Infrastructure\TJRJ.Assunto.Infrastructure.csproj" />
+    <ProjectReference Include="..\TJRJ.Autor.Application\TJRJ.Autor.Application.csproj" />
+    <ProjectReference Include="..\TJRJ.Infrastructure\TJRJ.Autor.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
