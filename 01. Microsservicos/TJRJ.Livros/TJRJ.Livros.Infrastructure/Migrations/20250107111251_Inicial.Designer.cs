@@ -11,7 +11,7 @@ using TJRJ.Livros.Infrastructure.Context;
 namespace TJRJ.Livros.Infrastructure.Migrations
 {
     [DbContext(typeof(LivroDbContext))]
-    [Migration("20250107014107_Inicial")]
+    [Migration("20250107111251_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />

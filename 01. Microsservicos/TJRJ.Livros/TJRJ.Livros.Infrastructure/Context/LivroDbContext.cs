@@ -13,6 +13,10 @@ namespace TJRJ.Livros.Infrastructure.Context
         public LivroDbContext(DbContextOptions<LivroDbContext> options) : base(options) { }
 
         public DbSet<Livro> Livro { get; set; }
+        public DbSet<Assunto> Assunto { get; set; }
+        public DbSet<Autor> Autor { get; set; }
+        public DbSet<TipoVenda> TipoVenda { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,14 +25,30 @@ namespace TJRJ.Livros.Infrastructure.Context
             modelBuilder.Entity<Livro>()
                 .HasKey(l => l.CodI);
 
+            modelBuilder.Entity<Livro>()
+                .Property(l => l.CodI)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Autor>()
                .HasKey(l => l.CodAu);
+
+            modelBuilder.Entity<Autor>()
+                .Property(l => l.CodAu)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Assunto>()
              .HasKey(l => l.codAs);
 
+            modelBuilder.Entity<Assunto>()
+               .Property(l => l.codAs)
+               .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<TipoVenda>()
           .HasKey(l => l.TipoVenda_CodI);
+
+            modelBuilder.Entity<TipoVenda>()
+               .Property(l => l.TipoVenda_CodI)
+               .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<LivroAutor>()
                 .HasKey(la => new { la.Livro_CodI, la.Autor_CodAu});
