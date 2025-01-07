@@ -1,6 +1,0 @@
-@TJRJ.TipoVenda.API_HostAddress = http://localhost:5225
-
-GET {{TJRJ.TipoVenda.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
