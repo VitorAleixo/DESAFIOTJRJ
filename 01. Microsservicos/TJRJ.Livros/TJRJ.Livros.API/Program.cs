@@ -7,8 +7,10 @@ using TJRJ.Livros.Application.DTOs.Sub;
 using TJRJ.Livros.Application.Interfaces;
 using TJRJ.Livros.Application.Interfaces.Relations;
 using TJRJ.Livros.Application.UseCases;
+using TJRJ.Livros.Application.UseCases.Relations;
 using TJRJ.Livros.Infrastructure.Context;
 using TJRJ.Livros.Infrastructure.Repositories;
+using TJRJ.Livros.Infrastructure.Repositories.Relations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,9 +79,12 @@ builder.Services.AddScoped<IAssuntoUseCase, AssuntoUseCase>();
 builder.Services.AddScoped<ITipoVendaRepository, TipoVendaRepository>();
 builder.Services.AddScoped<ITipoVendaUseCase, TipoVendaUseCase>();
 
-//builder.Services.AddScoped<ILivroAssuntoRepository, LivroAssuntoRepository>();
-//builder.Services.AddScoped<ILivroAutorRepository, LivroAutorRepository>();
-//builder.Services.AddScoped<ILivroTipoVendaRepository, LivroTipoVendaRepository>();
+builder.Services.AddScoped<ILivroAssuntoRepository, LivroAssuntoRepository>();
+builder.Services.AddScoped<ILivroAssuntoUseCase, LivroAssuntoUseCase>();
+builder.Services.AddScoped<ILivroAutorRepository, LivroAutorRepository>();
+builder.Services.AddScoped<ILivroAutorUseCase, LivroAutorUseCase>();
+builder.Services.AddScoped<ILivroTipoVendaRepository, LivroTipoVendaRepository>();
+builder.Services.AddScoped<ILivroTipoVendaUseCase, LivroTipoVendaUseCase>();
 
 var app = builder.Build();
 

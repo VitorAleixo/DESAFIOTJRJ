@@ -17,6 +17,9 @@ namespace TJRJ.Livros.Infrastructure.Context
         public DbSet<Autor> Autor { get; set; }
         public DbSet<TipoVenda> TipoVenda { get; set; }
 
+        public DbSet<LivroAssunto> LivroAssunto { get; set; }
+        public DbSet<LivroAutor> LivroAutor { get; set; }
+        public DbSet<LivroTipoVenda> LivroTipoVenda { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

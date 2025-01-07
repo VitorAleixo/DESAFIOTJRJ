@@ -12,7 +12,7 @@ namespace TJRJ.Livros.Application.Interfaces
     {
         Task<IEnumerable<Livro>> ObterTodosAsync();
         Task<Livro> ObterPorIdAsync(int CodI);
-        Task AdicionarAsync(Livro livro);
+        Task<Livro> AdicionarAsync(Livro livro);
         Task AtualizarAsync(Livro livro);
         Task RemoverAsync(int CodI);
     }

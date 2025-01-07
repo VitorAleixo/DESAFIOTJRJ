@@ -56,7 +56,9 @@ namespace TJRJ.Livros.Application.UseCases
                 Titulo = livroDto.Titulo,
             };
           
-            await _livroRepository.AdicionarAsync(livro);
+            livro = await _livroRepository.AdicionarAsync(livro);
+
+            livroDto.CodI = livro.CodI;
         }
 
         public async Task AtualizarAsync(LivroDto livroDto)

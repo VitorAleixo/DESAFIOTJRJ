@@ -10,6 +10,6 @@ namespace TJRJ.Livros.Application.Interfaces.Relations
     public interface ILivroAssuntoRepository
     {
         Task AdicionarAsync(LivroAssunto assunto);
-        Task AtualizarAsync(LivroAssunto assunto);
+        Task RemoveAsync(int CodI);
     }
 }

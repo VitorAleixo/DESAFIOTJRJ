@@ -10,6 +10,6 @@ namespace TJRJ.Livros.Application.Interfaces.Relations
     public interface ILivroAutorUseCase
     {
         Task AdicionarAsync(LivroAutorDto livroAutor);
-        Task AtualizarAsync(LivroAutorDto livroAutor);
+        Task RemoveAsync(int CodI);
     }
 }

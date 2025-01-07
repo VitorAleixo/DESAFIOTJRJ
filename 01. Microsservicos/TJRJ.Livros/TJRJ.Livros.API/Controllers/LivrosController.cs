@@ -5,6 +5,7 @@ using TJRJ.Livros.Application.DTOs.Sub;
 using TJRJ.Livros.Application.Interfaces;
 using TJRJ.Livros.Application.Interfaces.Relations;
 using TJRJ.Livros.Application.UseCases;
+using TJRJ.Livros.Domain.Entities;
 
 namespace TJRJ.Livros.API.Controllers
 {
@@ -14,21 +15,20 @@ namespace TJRJ.Livros.API.Controllers
         private readonly IAutorUseCase _autorUseCase;
         private readonly IAssuntoUseCase _assuntoUseCase;
         private readonly ITipoVendaUseCase _tipoVendaUseCase;
+        private readonly ILivroAutorUseCase _livroAutorUseCase;
+        private readonly ILivroAssuntoUseCase _livroAssuntoUseCase;
+        private readonly ILivroTipoVendaUseCase _livroTipoVendaUseCase;
 
-        //private readonly ILivroAssuntoUseCase _livroAssuntoUseCase;
-        //private readonly ILivroAutorUseCase _livroAutorUseCase;
-        //private readonly ILivroTipoVendaUseCase _livroTipoVendaUseCase;
-
-        public LivrosController(ILivroUseCase livroUseCase, IAutorUseCase autorUseCase, IAssuntoUseCase assuntoUseCase, ITipoVendaUseCase tipoVendaUseCase/*, ILivroAssuntoUseCase livroAssuntoUseCase, ILivroAutorUseCase livroAutorUseCase, ILivroTipoVendaUseCase livroTipoVendaUseCase*/)
+        public LivrosController(ILivroUseCase livroUseCase, IAutorUseCase autorUseCase, IAssuntoUseCase assuntoUseCase, ITipoVendaUseCase tipoVendaUseCase, ILivroAssuntoUseCase livroAssuntoUseCase, ILivroAutorUseCase livroAutorUseCase, ILivroTipoVendaUseCase livroTipoVendaUseCase)
         {
             _livroUseCase = livroUseCase;
             _tipoVendaUseCase = tipoVendaUseCase; 
             _autorUseCase = autorUseCase;
             _assuntoUseCase = assuntoUseCase;
 
-            //_livroAssuntoUseCase = livroAssuntoUseCase;
-            //_livroAutorUseCase = livroAutorUseCase;
-            //_livroTipoVendaUseCase = livroTipoVendaUseCase;
+            _livroAutorUseCase = livroAutorUseCase;
+            _livroAssuntoUseCase = livroAssuntoUseCase;
+            _livroTipoVendaUseCase = livroTipoVendaUseCase;
         }
 
         [HttpGet("getAlllivros")]
@@ -51,19 +51,110 @@ namespace TJRJ.Livros.API.Controllers
 
         [HttpPost("createLivro")]
         [Authorize]
-        public async Task<ActionResult> CreateLivro([FromBody] LivroDto LivroDto)
+        public async Task<ActionResult> CreateLivro([FromBody] LivroCreateDto LivroCreateDto)
         {
+
+            var LivroDto = new LivroDto()
+            {
+                Editora = LivroCreateDto.Editora,
+                Edicao = LivroCreateDto.Edicao,
+                AnoPublicacao = LivroCreateDto.AnoPublicacao,
+                Titulo = LivroCreateDto.Titulo
+            };
             await _livroUseCase.AdicionarAsync(LivroDto);
-            return CreatedAtAction(nameof(GetAssunto), new { CodI = LivroDto.CodI }, LivroDto);
+
+            var livroId = LivroDto.CodI;
+
+            foreach (var assuntoId in LivroCreateDto.codAs)
+            {
+                var livroAssunto = new LivroAssuntoDto
+                {
+                    codAs = assuntoId,
+                    CodI = livroId,
+                };
+                await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
+            }
+
+            foreach(var autorId in LivroCreateDto.CodAu)
+            {
+                var livroAutor = new LivroAutorDto
+                {
+                    CodAu = autorId,
+                    CodI = livroId,
+                };
+                await _livroAutorUseCase.AdicionarAsync(livroAutor);
+            }
+
+            return CreatedAtAction(nameof(GetAssunto), new { CodI = LivroDto.CodI }, LivroCreateDto);
         }
 
         [HttpPut("updateLivro")]
         [Authorize]
-        public async Task<ActionResult> UpdateLivro(int CodI, [FromBody] LivroDto LivroDto)
+        public async Task<ActionResult> UpdateLivro(int CodI, [FromBody] LivroCreateDto LivroCreateDto)
         {
-            LivroDto.CodI = CodI;
+            var LivroDto = new LivroDto()
+            {
+                CodI = CodI,
+                Editora = LivroCreateDto.Editora,
+                Edicao = LivroCreateDto.Edicao,
+                AnoPublicacao = LivroCreateDto.AnoPublicacao,
+                Titulo = LivroCreateDto.Titulo
+            };
+            
             await _livroUseCase.AtualizarAsync(LivroDto);
+
+            await _livroAssuntoUseCase.RemoveAsync(CodI);
+
+            foreach (var assuntoId in LivroCreateDto.codAs)
+            {
+                var livroAssunto = new LivroAssuntoDto
+                {
+                    codAs = assuntoId,
+                    CodI = CodI,
+                };
+                await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
+            }
+
+            await _livroAutorUseCase.RemoveAsync(CodI);
+
+            foreach (var autorId in LivroCreateDto.CodAu)
+            {
+                var livroAutor = new LivroAutorDto
+                {
+                    CodAu = autorId,
+                    CodI = CodI,
+                };
+                await _livroAutorUseCase.AdicionarAsync(livroAutor);
+            }
+
             return NoContent();
+        }
+
+        [HttpPost("createTipoVendaLivro")]
+        [Authorize]
+        public async Task<ActionResult> createTipoVendaLivro([FromBody] LivroTipoVendaDto LivroTipoVendaDto)
+        {
+            await _livroTipoVendaUseCase.AdicionarAsync(LivroTipoVendaDto);
+
+            return NoContent();
+        }
+
+        [HttpPost("deleteTipoVendaLivro")]
+        [Authorize]
+        public async Task<ActionResult> deleteTipoVendaLivro([FromBody] LivroTipoVendaDto LivroTipoVendaDto)
+        {
+            await _livroTipoVendaUseCase.RemoverAsync(LivroTipoVendaDto);
+
+            return NoContent();
+        }
+
+        [HttpPost("getTipoVendaLivro")]
+        [Authorize]
+        public async Task<ActionResult> getTipoVendaLivro(int CodI)
+        {
+            var TipoVendasLivro = await _livroTipoVendaUseCase.ObterTipoVendaAsync(CodI);
+
+            return Ok(TipoVendasLivro);
         }
 
         [HttpPut("deleteLivro")]

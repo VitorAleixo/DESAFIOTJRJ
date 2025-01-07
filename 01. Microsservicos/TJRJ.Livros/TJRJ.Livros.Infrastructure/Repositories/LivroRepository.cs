@@ -29,10 +29,12 @@ namespace TJRJ.Livros.Infrastructure.Repositories
             return await _context.Livro.FindAsync(CodI);
         }
 
-        public async Task AdicionarAsync(Livro Livro)
+        public async Task<Livro> AdicionarAsync(Livro Livro)
         {
             await _context.Livro.AddAsync(Livro);
             await _context.SaveChangesAsync();
+
+            return Livro;
         }
 
         public async Task AtualizarAsync(Livro Livro)
