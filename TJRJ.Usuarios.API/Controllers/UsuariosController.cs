@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TJRJ.Usuarios.Application.DTOs.Main;
+using TJRJ.Usuarios.Application.DTOs.Sub;
 using TJRJ.Usuarios.Application.Interfaces;
 using WorkGoal.Alunos.Application.DTOs.Sub;
 
@@ -9,13 +10,40 @@ namespace TJRJ.Usuarios.API.Controllers
     public class UsuariosController : Controller
     {
         private readonly IUsuarioUseCase _usrUseCase;
+        private readonly IJwtRepository _jwtService;
 
-
-        public UsuariosController(IUsuarioUseCase usrUseCase)
+        public UsuariosController(IUsuarioUseCase usrUseCase,
+            IJwtRepository jwtService)
         {
             _usrUseCase = usrUseCase;
+            _jwtService = jwtService;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UsuarioLoginDto loginDto)
+        {
+            try
+            {
+                var usuario = await _usrUseCase.ObterPorEmailAsync(loginDto.Email, loginDto.Senha);
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+
+                var token = _jwtService.GerarToken(usuario.Id);
+
+                return Ok(new { Token = token });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { Message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
 
         [HttpGet]
         [Authorize]
@@ -35,7 +63,7 @@ namespace TJRJ.Usuarios.API.Controllers
             return Ok(usuario);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult> CreateUsuario([FromBody] UsuarioCreateDto usuarioDto)
         {
             await _usrUseCase.AdicionarAsync(usuarioDto);
