@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Assunto } from '../models/assunto.model';
 
@@ -18,7 +18,9 @@ export class AssuntoService {
     return this.http.post<void>(`${this.apiUrl}/createAssunto`, assunto);
   }
 
-  excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/deleteAssunto?"${id}`);
+  excluir(codAs: number): Observable<void> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<void>(`${this.apiUrl}/deleteAssunto?CodA=${codAs}`, null, { headers });
   }
 }

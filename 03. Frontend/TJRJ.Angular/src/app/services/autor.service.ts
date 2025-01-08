@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Autor } from '../models/autor.model';
 
@@ -19,7 +19,9 @@ export class AutorService {
     return this.http.post<void>(`${this.apiUrl}/createAutor`, autor);
   }
 
-  excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/deleteAutor?"${id}`);
+  excluir(codAu: number): Observable<void> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<void>(`${this.apiUrl}/deleteAutor?CodAu=${codAu}`, null, { headers });
   }
 }

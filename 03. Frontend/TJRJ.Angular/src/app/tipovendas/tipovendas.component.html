@@ -1,0 +1,38 @@
+<div>
+  <h1>Tipos de Venda</h1>
+  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#adicionarTipoVendaModal">
+    Adicionar Novo Tipo
+  </button>
+
+  <div *ngFor="let tipovenda of tipovendas" class="mb-2">
+    <p>
+      {{ tipovenda.descricao }}
+      <button class="btn btn-danger btn-sm ms-2" (click)="excluirTipoVenda(tipovenda.tipoVenda_CodI)">Excluir</button>
+    </p>
+  </div>
+</div>
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="adicionarTipoVendaModal" tabindex="-1" aria-labelledby="adicionarTipoVendaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adicionarTipoVendaModalLabel">Adicionar Assunto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descricao</label>
+            <input type="text" class="form-control" id="Descricao" [(ngModel)]="novoTipoVenda.descricao" name="Descricao" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="adicionarTipoVenda()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

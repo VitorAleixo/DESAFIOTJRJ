@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TipoVenda } from '../models/tipovenda.model';
 
@@ -19,7 +19,9 @@ export class TipoVendaService {
     return this.http.post<void>(`${this.apiUrl}/createTipoVenda`, autor);
   }
 
-  excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/TipoVenda_CodI?"${id}`);
+  excluir(tipoVenda_CodI: number): Observable<void> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.put<void>(`${this.apiUrl}/deleteTipoVenda?TipoVenda_CodI=${tipoVenda_CodI}`, null, { headers });
   }
 }

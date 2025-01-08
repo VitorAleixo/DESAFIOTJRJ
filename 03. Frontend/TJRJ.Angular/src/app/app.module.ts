@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { LivrosComponent } from './livros/livros.component';
 import { AutoresComponent } from './autores/autores.component';
 import { AssuntosComponent } from './assuntos/assuntos.component';
-import { TipoVendaComponent } from './tipovenda/tipovenda.component';
+import { TipoVendasComponent } from './tipovendas/tipovendas.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     LivrosComponent,
     AssuntosComponent,
     AutoresComponent,
-    TipoVendaComponent,
+    TipoVendasComponent,
   ],
   imports: [
     BrowserModule,
