@@ -3,20 +3,16 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styles: 'login.component.scss'
 })
 export class LoginComponent {
   login = {
     email: '',
     senha: '',
-    tipoUsuario: 'Aluno',
   };
-
-  ngOnInit() {
-    this.login.tipoUsuario = 'Aluno';
-  }
 
   errorMessage = '';
   successMessage = '';

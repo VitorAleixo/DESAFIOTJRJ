@@ -7,17 +7,10 @@
             <div class="card-body">
               <h1>Login</h1>
               <form>
-                <br />
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">
-                      <i class="cil-user"></i>
-                    </span>
-                    <br />
-                  </div>
-                <br />
+               <br />
                 <div class="input-group mb-3">
                   <span class="input-group-text">
-                    <i class="cil-user"></i>
+                    <i class="bi bi-person"></i>
                   </span>
                   <input type="email"
                          id="email"
@@ -36,7 +29,7 @@
                 <br />
                 <div class="input-group mb-4">
                   <span class="input-group-text">
-                    <i class="cil-lock-locked"></i>
+                    <i class="bi bi-lock"></i>
                   </span>
                   <input type="password"
                          class="form-control"
@@ -51,17 +44,12 @@
                 </div>
                 <br />
                 <br />
-                <!-- Mensagem de erro -->
                 <div *ngIf="errorMessage" class="alert alert-danger mt-3">
                   {{ errorMessage }}
                 </div>
-
-                <!-- Mensagem de sucesso -->
                 <div *ngIf="successMessage" class="alert alert-success mt-3">
                   {{ successMessage }}
                 </div>
-
-                <!-- Loader (Spinner) -->
                 <div *ngIf="isLoading" class="loader-overlay">
                   <div class="spinner-border text-primary" role="status">
                     <span class="sr-only"></span>
@@ -74,9 +62,6 @@
                     </button>
                   </div>
                   <div class="col-6 text-end">
-                    <button type="button" class="btn btn-link px-0">
-                      Esqueci a senha
-                    </button>
                   </div>
                 </div>
               </form>
@@ -87,9 +72,9 @@
               <div>
                 <h2>Bem-vindo!</h2>
                 <p>
-                  O sistema WorkGoal é uma plataforma completa para chegar ao seu objetivo.
+                  Desafio TJRJ.
                 </p>
-                <button class="btn btn-light mt-3" type="button">Saiba mais</button>
+                <p>2025</p>
               </div>
             </div>
           </div>
