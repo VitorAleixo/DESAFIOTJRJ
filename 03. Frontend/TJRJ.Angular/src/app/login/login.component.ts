@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styles: 'login.component.scss'
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   login = {
@@ -34,8 +34,8 @@ export class LoginComponent {
           localStorage.setItem('token', response.token);
 
           setTimeout(() => {
-            this.router.navigate(['/dashboard']);
-          }, 2000);
+            this.router.navigate(['/livros']);
+          }, 1000);
         },
         (error) => {
           this.isLoading = false; 

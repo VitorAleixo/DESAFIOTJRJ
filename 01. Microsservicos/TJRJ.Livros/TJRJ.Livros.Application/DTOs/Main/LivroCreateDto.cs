@@ -16,10 +16,10 @@ namespace TJRJ.Livros.Application.DTOs.Main
 
 
         //Campos para cadastro
-        public List<int> CodAu { get; set; }
-        public List<int> codAs { get; set; }
-        public List<int> TipoVenda_CodI { get; set; }
-        public double Valor { get; set; }
+        public List<int> autores { get; set; }
+        public List<int> assuntos { get; set; }
+        //public List<int> TipoVenda_CodI { get; set; }
+        //public double Valor { get; set; }
 
     }
 }

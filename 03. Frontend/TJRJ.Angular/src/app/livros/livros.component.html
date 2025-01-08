@@ -1,0 +1,103 @@
+<div>
+  <h1>Livros</h1>
+  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#adicionarLivroModal">
+    Adicionar Novo Livro
+  </button>
+
+  <div *ngFor="let livro of livros" class="mb-2">
+    <p>
+      {{ livro.titulo }} ({{ livro.anoPublicacao }})
+      <button class="btn btn-primary btn-sm ms-2"(click)="abrirEditarLivro(livro)">Editar</button>
+      <button class="btn btn-success btn-sm ms-2"(click)="abrirModalVenda(livro)" data-bs-toggle="modal" data-bs-target="#modalVenda">Venda</button>
+      <button class="btn btn-danger btn-sm ms-2" (click)="excluirLivro(livro.codI)">Excluir</button>
+    </p>
+  </div>
+</div>
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="adicionarLivroModal" tabindex="-1" aria-labelledby="adicionarLivroModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adicionarLivroModalLabel">Adicionar Livro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" class="form-control" id="Titulo" [(ngModel)]="novoLivro.titulo" name="Titulo" />
+          </div>
+          <div class="mb-3">
+            <label for="editora" class="form-label">Editora</label>
+            <input type="text" class="form-control" id="Editora" [(ngModel)]="novoLivro.editora" name="Editora" />
+          </div>
+          <div class="mb-3">
+            <label for="edicao" class="form-label">Edição</label>
+            <input type="number" class="form-control" id="Edicao" [(ngModel)]="novoLivro.edicao" name="Edicao" />
+          </div>
+          <div class="mb-3">
+            <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
+            <input type="number" class="form-control" id="AnoPublicacao" [(ngModel)]="novoLivro.anoPublicacao" name="AnoPublicacao" />
+          </div>
+          <div class="mb-3">
+            <label for="autores" class="form-label">Autores</label>
+            <select id="autores" class="form-select" [(ngModel)]="novoLivro.autores" name="autores" multiple>
+              <option *ngFor="let autor of autores" [value]="autor.codAu">{{ autor.nome }}</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="assuntos" class="form-label">Assuntos</label>
+            <select id="assuntos" class="form-select" [(ngModel)]="novoLivro.assuntos" name="assuntos" multiple>
+              <option *ngFor="let assunto of assuntos" [value]="assunto.codAs">{{ assunto.descricao }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="adicionarLivro()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalVenda" tabindex="-1" aria-labelledby="modalVendaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalVendaLabel">Venda de Livro - {{ livroSelecionado?.titulo }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="tipoVenda" class="form-label">Tipo de Venda</label>
+            <!--<select id="tipoVenda"
+                    class="form-select"
+                    [(ngModel)]="venda.tipo"
+                    name="tipoVenda"
+                    required>
+              <option *ngFor="let tipo of tiposvenda" [value]="tipo.tipovenda_codI">{{ tipo.descricao }}</option>
+            </select>-->
+          </div>
+          <!--<div class="mb-3">
+            <label for="valorVenda" class="form-label">Valor</label>
+            <input type="number"
+                   id="valorVenda"
+                   class="form-control"
+                   [(ngModel)]="venda.valor"
+                   name="valorVenda"
+                   required />
+          </div>-->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" (click)="confirmarVenda()">Confirmar Venda</button>
+      </div>
+    </div>
+  </div>
+</div>

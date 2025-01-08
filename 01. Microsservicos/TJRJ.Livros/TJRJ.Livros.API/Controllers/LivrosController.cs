@@ -65,7 +65,7 @@ namespace TJRJ.Livros.API.Controllers
 
             var livroId = LivroDto.CodI;
 
-            foreach (var assuntoId in LivroCreateDto.codAs)
+            foreach (var assuntoId in LivroCreateDto.assuntos)
             {
                 var livroAssunto = new LivroAssuntoDto
                 {
@@ -75,7 +75,7 @@ namespace TJRJ.Livros.API.Controllers
                 await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
             }
 
-            foreach(var autorId in LivroCreateDto.CodAu)
+            foreach(var autorId in LivroCreateDto.autores)
             {
                 var livroAutor = new LivroAutorDto
                 {
@@ -105,7 +105,7 @@ namespace TJRJ.Livros.API.Controllers
 
             await _livroAssuntoUseCase.RemoveAsync(CodI);
 
-            foreach (var assuntoId in LivroCreateDto.codAs)
+            foreach (var assuntoId in LivroCreateDto.assuntos)
             {
                 var livroAssunto = new LivroAssuntoDto
                 {
@@ -117,7 +117,7 @@ namespace TJRJ.Livros.API.Controllers
 
             await _livroAutorUseCase.RemoveAsync(CodI);
 
-            foreach (var autorId in LivroCreateDto.CodAu)
+            foreach (var autorId in LivroCreateDto.autores)
             {
                 var livroAutor = new LivroAutorDto
                 {
