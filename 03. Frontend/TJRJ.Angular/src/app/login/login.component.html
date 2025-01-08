@@ -1,0 +1,100 @@
+<div class="min-vh-100 d-flex flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card-group">
+          <div class="card p-4">
+            <div class="card-body">
+              <h1>Login</h1>
+              <form>
+                <br />
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <i class="cil-user"></i>
+                    </span>
+                    <br />
+                  </div>
+                <br />
+                <div class="input-group mb-3">
+                  <span class="input-group-text">
+                    <i class="cil-user"></i>
+                  </span>
+                  <input type="email"
+                         id="email"
+                         class="form-control"
+                         name="email"
+                         placeholder="Email"
+                         [(ngModel)]="login.email"
+                         required
+                         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                         #email="ngModel" />
+                </div>
+                <div *ngIf="email.invalid && email.touched" class="text-danger">
+                  <div *ngIf="email.errors?.['required']">O e-mail é obrigatório.</div>
+                  <div *ngIf="email.errors?.['pattern']">Por favor, insira um e-mail válido.</div>
+                </div>
+                <br />
+                <div class="input-group mb-4">
+                  <span class="input-group-text">
+                    <i class="cil-lock-locked"></i>
+                  </span>
+                  <input type="password"
+                         class="form-control"
+                         placeholder="Senha"
+                         required
+                         [(ngModel)]="login.senha"
+                         #senha="ngModel"
+                         name="senha" />
+                </div>
+                <div *ngIf="senha.invalid && senha.touched" class="text-danger">
+                  <div *ngIf="senha.errors?.['required']">A senha é obrigatória.</div>
+                </div>
+                <br />
+                <br />
+                <!-- Mensagem de erro -->
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                  {{ errorMessage }}
+                </div>
+
+                <!-- Mensagem de sucesso -->
+                <div *ngIf="successMessage" class="alert alert-success mt-3">
+                  {{ successMessage }}
+                </div>
+
+                <!-- Loader (Spinner) -->
+                <div *ngIf="isLoading" class="loader-overlay">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only"></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-primary px-4" (click)="onSubmit()">
+                      Login
+                    </button>
+                  </div>
+                  <div class="col-6 text-end">
+                    <button type="button" class="btn btn-link px-0">
+                      Esqueci a senha
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card text-white bg-primary py-5" style="width: 44%">
+            <div class="card-body text-center">
+              <div>
+                <h2>Bem-vindo!</h2>
+                <p>
+                  O sistema WorkGoal é uma plataforma completa para chegar ao seu objetivo.
+                </p>
+                <button class="btn btn-light mt-3" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
