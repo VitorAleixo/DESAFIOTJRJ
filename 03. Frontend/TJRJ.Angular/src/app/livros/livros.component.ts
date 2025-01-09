@@ -91,9 +91,9 @@ export class LivrosComponent implements OnInit {
         // Agora carrega o livro para selecionar os autores associados
         this.livroService.obterLivro(codI).subscribe(
           (livroData: { codI: number, titulo: string, editora: string, edicao: number, anoPublicacao: string, autores: number[], assuntos: number[] }) => {
-            this.livroSelecionado = livroData;
+            this.livroEditado = livroData;
             // Filtra os autores que estão relacionados ao livro com base no ID
-            this.listaAutoresSelecionados = this.listaAutores.filter(autor => this.livroSelecionado.autores.includes(autor.codAu));
+            this.listaAutoresSelecionados = this.listaAutores.filter(autor => this.livroEditado.autores.includes(autor.codAu));
            
           },
           error => {
@@ -113,10 +113,10 @@ export class LivrosComponent implements OnInit {
         // Agora carrega o livro para selecionar os autores associados
         this.livroService.obterLivro(codI).subscribe(
           (livroData: { codI: number, titulo: string, editora: string, edicao: number, anoPublicacao: string, autores: number[], assuntos: number[] }) => {
-            this.livroSelecionado = livroData;
+            this.livroEditado = livroData;
         
             // Filtra os autores que estão relacionados ao livro com base no ID
-            this.listaAssuntosSelecionados = this.listaAssuntos.filter(assunto => this.livroSelecionado.assuntos.includes(assunto.codAs));
+            this.listaAssuntosSelecionados = this.listaAssuntos.filter(assunto => this.livroEditado.assuntos.includes(assunto.codAs));
 
           },
           error => {
@@ -160,15 +160,15 @@ export class LivrosComponent implements OnInit {
   }
 
   confirmarEdicao(codI: number): void {
-    this.livroService.editar(codI, this.livroSelecionado).subscribe({
+    this.livroService.editar(codI, this.livroEditado).subscribe({
       next: () => {
         alert('Livro atualizado com sucesso!');
-        // Aqui você pode atualizar a lista de livros ou fechar a modal
+        this.carregarLivros(); 
       },
       error: (err) => {
-        console.error('Erro ao editar livro', err);
+        console.error('Erro ao editar livro:', err);
         alert('Erro ao editar livro.');
-      }
+      },
     });
    }
 
@@ -249,7 +249,7 @@ export class LivrosComponent implements OnInit {
   }
 
   abrirModalEditar(livro: Livro) {
-    this.livroEditado = livro;
+    this.livroEditado = {...livro}
     this.carregarAutoresEAssuntos(livro.codI);
   }
 

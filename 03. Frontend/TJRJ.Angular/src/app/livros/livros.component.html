@@ -72,10 +72,10 @@
       </div>
       <div class="modal-body">
         <form>
-          <!--<div class="mb-3">
-    <label for="titulo2" class="form-label">Título</label>
-    <input type="text" id="titulo2" class="form-control" [(ngModel)]="livroEditado.titulo" name="titulo" />
-  </div>-->
+          <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" id="titulo" class="form-control" [(ngModel)]="livroEditado.titulo" name="titulo" />
+          </div>
           <div class="mb-3">
             <label for="editora" class="form-label">Editora</label>
             <input type="text" id="editora" class="form-control" [(ngModel)]="livroEditado.editora" name="editora" />
@@ -88,20 +88,17 @@
             <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
             <input type="number" id="anoPublicacao" class="form-control" [(ngModel)]="livroEditado.anoPublicacao" name="anoPublicacao" />
           </div>
-          <!-- Lista de autores -->
           <div class="mb-3">
             <label for="autores" class="form-label">Autores</label>
-            <select class="form-control" [(ngModel)]="livroSelecionado.autores" name="autores" multiple>
+            <select class="form-control" [(ngModel)]="livroEditado.autores" name="autores" multiple>
               <option *ngFor="let autor of listaAutores" [value]="autor.codAu">
                 {{ autor.nome }}
               </option>
             </select>
           </div>
-
-          <!-- Lista de assuntos -->
           <div class="mb-3">
             <label for="assuntos" class="form-label">Assuntos</label>
-            <select class="form-control" [(ngModel)]="livroSelecionado.assuntos" name="assuntos" multiple>
+            <select class="form-control" [(ngModel)]="livroEditado.assuntos" name="assuntos" multiple>
               <option *ngFor="let assunto of listaAssuntos" [value]="assunto.codAs">
                 {{ assunto.descricao }}
               </option>

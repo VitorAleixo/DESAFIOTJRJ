@@ -38,7 +38,8 @@ export class LivroService {
   }
 
   editar(id: number, livro: Livro): Observable<Livro> {
-    return this.http.put<Livro>(`${this.apiUrl}/updateLivro?${id}`, livro);
+    console.log(livro);
+    return this.http.put<Livro>(`${this.apiUrl}/updateLivro?CodI=${livro.codI}`, livro);
   }
 
   excluir(codI: number): Observable<void> {
