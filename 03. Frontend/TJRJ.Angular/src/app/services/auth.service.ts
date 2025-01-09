@@ -14,4 +14,11 @@ export class AuthService {
   login(credentials: { email: string; senha: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials);
   }
+
+  isAuthenticated(): boolean {
+
+    const token = localStorage.getItem('token');
+    console.log(token);
+    return !!token; 
+  }
 }

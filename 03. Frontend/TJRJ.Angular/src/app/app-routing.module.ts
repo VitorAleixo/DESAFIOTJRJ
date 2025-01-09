@@ -5,13 +5,14 @@ import { LivrosComponent } from './livros/livros.component';
 import { AssuntosComponent } from './assuntos/assuntos.component';
 import { AutoresComponent } from './autores/autores.component';
 import { TipoVendasComponent } from './tipovendas/tipovendas.component';
+import { AuthGuard } from './interceptor/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent }, 
-  { path: 'livros', component: LivrosComponent }, 
-  { path: 'assuntos', component: AssuntosComponent },
-  { path: 'autores', component: AutoresComponent }, 
-  { path: 'tipovendas', component: TipoVendasComponent }, 
+  { path: 'livros', component: LivrosComponent, canActivate: [AuthGuard] }, 
+  { path: 'assuntos', component: AssuntosComponent, canActivate: [AuthGuard] },
+  { path: 'autores', component: AutoresComponent, canActivate: [AuthGuard] }, 
+  { path: 'tipovendas', component: TipoVendasComponent, canActivate: [AuthGuard] }, 
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
   { path: '**', redirectTo: '/login' } 
 ];

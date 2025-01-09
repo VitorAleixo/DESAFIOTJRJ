@@ -18,6 +18,10 @@ export class LoginComponent {
   successMessage = '';
   isLoading = false; 
 
+  ngOnInit(): void {
+    localStorage.removeItem('token');
+  }
+
   constructor(private authService: AuthService, private router: Router) {
   }
 
