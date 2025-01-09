@@ -21,6 +21,8 @@ namespace TJRJ.Livros.Infrastructure.Context
         public DbSet<LivroAutor> LivroAutor { get; set; }
         public DbSet<LivroTipoVenda> LivroTipoVenda { get; set; }
 
+        public DbSet<LivroView> LivrosView { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -91,6 +93,9 @@ namespace TJRJ.Livros.Infrastructure.Context
                .HasOne(la => la.TipoVenda)
                .WithMany(l => l.LivroTipoVendas)
                .HasForeignKey(la => la.TipoVenda_CodI);
+
+            modelBuilder.Entity<LivroView>().ToView("vwLivros");
+            modelBuilder.Entity<LivroView>().HasNoKey();
         }
     }
 }

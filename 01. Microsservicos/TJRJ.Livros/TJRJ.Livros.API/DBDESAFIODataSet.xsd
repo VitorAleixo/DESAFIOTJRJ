@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DBDESAFIODataSet" targetNamespace="http://tempuri.org/DBDESAFIODataSet.xsd" xmlns:mstns="http://tempuri.org/DBDESAFIODataSet.xsd" xmlns="http://tempuri.org/DBDESAFIODataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="Data Source=localhost\SQLEXPRESS;Initial Catalog=DBDESAFIO;Integrated Security=True;Encrypt=False" IsAppSettingsProperty="false" Modifier="Assembly" Name="cwb01dkdl03005\sqlexpress.DBDESAFIO.dbo" ParameterPrefix="@" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwLivrosTableAdapter" GeneratorDataComponentClassName="vwLivrosTableAdapter" Name="vwLivros" UserDataComponentName="vwLivrosTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="cwb01dkdl03005\sqlexpress.DBDESAFIO.dbo" DbObjectName="DBDESAFIO.dbo.vwLivros" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT NomeAutor, Titulo, Editora, AnoPublicacao, Edicao, Assunto FROM dbo.vwLivros</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="NomeAutor" DataSetColumn="NomeAutor" />
+              <Mapping SourceColumn="Titulo" DataSetColumn="Titulo" />
+              <Mapping SourceColumn="Editora" DataSetColumn="Editora" />
+              <Mapping SourceColumn="AnoPublicacao" DataSetColumn="AnoPublicacao" />
+              <Mapping SourceColumn="Edicao" DataSetColumn="Edicao" />
+              <Mapping SourceColumn="Assunto" DataSetColumn="Assunto" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DBDESAFIODataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="DBDESAFIODataSet" msprop:Generator_DataSetName="DBDESAFIODataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="vwLivros" msprop:Generator_RowEvHandlerName="vwLivrosRowChangeEventHandler" msprop:Generator_RowDeletedName="vwLivrosRowDeleted" msprop:Generator_RowDeletingName="vwLivrosRowDeleting" msprop:Generator_RowEvArgName="vwLivrosRowChangeEvent" msprop:Generator_TablePropName="vwLivros" msprop:Generator_RowChangedName="vwLivrosRowChanged" msprop:Generator_RowChangingName="vwLivrosRowChanging" msprop:Generator_TableClassName="vwLivrosDataTable" msprop:Generator_RowClassName="vwLivrosRow" msprop:Generator_TableVarName="tablevwLivros" msprop:Generator_UserTableName="vwLivros">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NomeAutor" msprop:Generator_ColumnPropNameInRow="NomeAutor" msprop:Generator_ColumnPropNameInTable="NomeAutorColumn" msprop:Generator_ColumnVarNameInTable="columnNomeAutor" msprop:Generator_UserColumnName="NomeAutor">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Titulo" msprop:Generator_ColumnPropNameInRow="Titulo" msprop:Generator_ColumnPropNameInTable="TituloColumn" msprop:Generator_ColumnVarNameInTable="columnTitulo" msprop:Generator_UserColumnName="Titulo">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Editora" msprop:Generator_ColumnPropNameInRow="Editora" msprop:Generator_ColumnPropNameInTable="EditoraColumn" msprop:Generator_ColumnVarNameInTable="columnEditora" msprop:Generator_UserColumnName="Editora">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AnoPublicacao" msprop:Generator_ColumnPropNameInRow="AnoPublicacao" msprop:Generator_ColumnPropNameInTable="AnoPublicacaoColumn" msprop:Generator_ColumnVarNameInTable="columnAnoPublicacao" msprop:Generator_UserColumnName="AnoPublicacao">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Edicao" msprop:Generator_ColumnPropNameInRow="Edicao" msprop:Generator_ColumnPropNameInTable="EdicaoColumn" msprop:Generator_ColumnVarNameInTable="columnEdicao" msprop:Generator_UserColumnName="Edicao" type="xs:int" />
+              <xs:element name="Assunto" msprop:Generator_ColumnPropNameInRow="Assunto" msprop:Generator_ColumnPropNameInTable="AssuntoColumn" msprop:Generator_ColumnVarNameInTable="columnAssunto" msprop:Generator_UserColumnName="Assunto">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

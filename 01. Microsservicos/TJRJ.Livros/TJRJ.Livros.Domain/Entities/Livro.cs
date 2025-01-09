@@ -72,4 +72,14 @@ namespace TJRJ.Livros.Domain.Entities
         public double Valor { get; set; }
         public string Descricao { get; set; }
     }
+
+    public class LivroView
+    {
+        public string NomeAutor { get; set; }
+        public string Assunto { get; set; }
+        public string Titulo { get; set; }
+        public string Editora { get; set; }
+        public int Edicao { get; set; }
+        public string AnoPublicacao { get; set; }
+    }
 }

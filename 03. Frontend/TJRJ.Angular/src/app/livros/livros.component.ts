@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LivroService } from '../services/livro.service';
 import { AutorService } from '../services/autor.service';
+import { RelatorioService } from '../services/relatorio.service';
 import { AssuntoService } from '../services/assunto.service';
 import { TipoVendaService } from '../services/tipovenda.service';
 import { Livro } from '../models/livro.model';
@@ -69,6 +70,7 @@ export class LivrosComponent implements OnInit {
 
   constructor(
     private livroService: LivroService,
+    private relatorioService: RelatorioService,
     private autorService: AutorService,
     private assuntoService: AssuntoService,
     private tipovendaService : TipoVendaService
@@ -264,5 +266,15 @@ export class LivrosComponent implements OnInit {
       error: (err) => console.error('Erro ao excluir livro:', err),
     });
     }
+  }
+
+  gerarRelatorio() {
+    this.relatorioService.gerarRelatorioLivros().subscribe((res) => {
+      const blob = new Blob([res], { type: 'application/pdf' });
+
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+
+    });
   }
 }

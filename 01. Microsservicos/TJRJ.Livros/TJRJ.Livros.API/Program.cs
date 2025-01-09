@@ -78,6 +78,7 @@ builder.Services.AddScoped<IAssuntoRepository, AssuntoRepository>();
 builder.Services.AddScoped<IAssuntoUseCase, AssuntoUseCase>();
 builder.Services.AddScoped<ITipoVendaRepository, TipoVendaRepository>();
 builder.Services.AddScoped<ITipoVendaUseCase, TipoVendaUseCase>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddScoped<ILivroAssuntoRepository, LivroAssuntoRepository>();
 builder.Services.AddScoped<ILivroAssuntoUseCase, LivroAssuntoUseCase>();
@@ -85,6 +86,7 @@ builder.Services.AddScoped<ILivroAutorRepository, LivroAutorRepository>();
 builder.Services.AddScoped<ILivroAutorUseCase, LivroAutorUseCase>();
 builder.Services.AddScoped<ILivroTipoVendaRepository, LivroTipoVendaRepository>();
 builder.Services.AddScoped<ILivroTipoVendaUseCase, LivroTipoVendaUseCase>();
+builder.Services.AddScoped<IReportUseCase, ReportUseCase>();
 
 builder.Services.AddCors(options =>
 {
