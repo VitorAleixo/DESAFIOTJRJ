@@ -33,7 +33,10 @@
         <form>
           <div class="mb-3">
             <label for="Nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="Descricao" [(ngModel)]="novoAutor.nome" name="Nome" />
+            <input type="text" class="form-control" id="Descricao" [(ngModel)]="novoAutor.nome" name="Nome" maxlength="40"/>
+            <small id="descricaoHelp" class="form-text text-muted">
+              Máximo de 40 caracteres.
+            </small>
           </div>
         </form>
       </div>

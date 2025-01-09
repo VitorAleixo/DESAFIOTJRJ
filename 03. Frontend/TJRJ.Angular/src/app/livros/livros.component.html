@@ -51,19 +51,26 @@
         <form>
           <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
-            <input type="text" class="form-control" id="Titulo" [(ngModel)]="novoLivro.titulo" name="Titulo" />
+            <input type="text" class="form-control" id="Titulo" [(ngModel)]="novoLivro.titulo" name="Titulo" maxlength="20"/>
+            <small id="descricaoHelp" class="form-text text-muted">
+              Máximo de 40 caracteres.
+            </small>
           </div>
+
           <div class="mb-3">
             <label for="editora" class="form-label">Editora</label>
-            <input type="text" class="form-control" id="Editora" [(ngModel)]="novoLivro.editora" name="Editora" />
+            <input type="text" class="form-control" id="Editora" [(ngModel)]="novoLivro.editora" name="Editora" maxlength="20" />
+            <small id="descricaoHelp" class="form-text text-muted">
+              Máximo de 40 caracteres.
+            </small>
           </div>
           <div class="mb-3">
             <label for="edicao" class="form-label">Edição</label>
-            <input type="number" class="form-control" id="Edicao" [(ngModel)]="novoLivro.edicao" name="Edicao" />
+            <input type="number" class="form-control" id="Edicao" [(ngModel)]="novoLivro.edicao" name="Edicao" min="1" step="1"/>
           </div>
           <div class="mb-3">
             <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
-            <input type="number" class="form-control" id="AnoPublicacao" [(ngModel)]="novoLivro.anoPublicacao" name="AnoPublicacao" />
+            <input type="text" class="form-control" id="AnoPublicacao" [(ngModel)]="novoLivro.anoPublicacao" name="AnoPublicacao"  maxlength="4" pattern="\d{4}"  />
           </div>
           <div class="mb-3">
             <label for="autores" class="form-label">Autores</label>
