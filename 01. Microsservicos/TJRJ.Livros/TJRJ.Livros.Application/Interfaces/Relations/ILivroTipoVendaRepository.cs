@@ -11,7 +11,7 @@ namespace TJRJ.Livros.Application.Interfaces.Relations
     public interface ILivroTipoVendaRepository
     {
         Task AdicionarAsync(LivroTipoVenda tipoVenda);
-        Task<IEnumerable<LivroTipoVenda>> ObterTipoVendaAsync(int CodI);
+        Task<IEnumerable<LivroTipoVendaReturn>> ObterTipoVendaAsync(int CodI);
         Task RemoveAsync(LivroTipoVenda tipoVenda);
     }
 }

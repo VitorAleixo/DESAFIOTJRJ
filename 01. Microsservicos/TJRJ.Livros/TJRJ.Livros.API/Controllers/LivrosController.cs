@@ -35,134 +35,223 @@ namespace TJRJ.Livros.API.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<LivroDto>>> GetLivros()
         {
-            var Livros = await _livroUseCase.ObterTodosAsync();
-            return Ok(Livros);
+            try
+            {
+                var Livros = await _livroUseCase.ObterTodosAsync();
+                return Ok(Livros);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+            
         }
 
         [HttpGet("getlivro")]
         [Authorize]
         public async Task<ActionResult<LivroDto>> GetLivro(int CodI)
         {
-            var Livro = await _livroUseCase.ObterPorIdAsync(CodI);
-            if (Livro == null) return NotFound();
+            try
+            {
 
-            return Ok(Livro);
+                var Livro = await _livroUseCase.ObterPorIdAsync(CodI);
+                if (Livro == null) return NotFound();
+
+                Livro.autores = await GetAutorByLivro(CodI);
+                Livro.assuntos = await GetAssuntoByLivro(CodI);
+
+                return Ok(Livro);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPost("createLivro")]
         [Authorize]
         public async Task<ActionResult> CreateLivro([FromBody] LivroCreateDto LivroCreateDto)
         {
-
-            var LivroDto = new LivroDto()
+            try
             {
-                Editora = LivroCreateDto.Editora,
-                Edicao = LivroCreateDto.Edicao,
-                AnoPublicacao = LivroCreateDto.AnoPublicacao,
-                Titulo = LivroCreateDto.Titulo
-            };
-            await _livroUseCase.AdicionarAsync(LivroDto);
-
-            var livroId = LivroDto.CodI;
-
-            foreach (var assuntoId in LivroCreateDto.assuntos)
-            {
-                var livroAssunto = new LivroAssuntoDto
+                var LivroDto = new LivroDto()
                 {
-                    codAs = assuntoId,
-                    CodI = livroId,
+                    Editora = LivroCreateDto.Editora,
+                    Edicao = LivroCreateDto.Edicao,
+                    AnoPublicacao = LivroCreateDto.AnoPublicacao,
+                    Titulo = LivroCreateDto.Titulo
                 };
-                await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
-            }
+                await _livroUseCase.AdicionarAsync(LivroDto);
 
-            foreach(var autorId in LivroCreateDto.autores)
-            {
-                var livroAutor = new LivroAutorDto
+                var livroId = LivroDto.CodI;
+
+                foreach (var assuntoId in LivroCreateDto.assuntos)
                 {
-                    CodAu = autorId,
-                    CodI = livroId,
-                };
-                await _livroAutorUseCase.AdicionarAsync(livroAutor);
-            }
+                    var livroAssunto = new LivroAssuntoDto
+                    {
+                        codAs = assuntoId,
+                        CodI = livroId,
+                    };
+                    await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
+                }
 
-            return CreatedAtAction(nameof(GetAssunto), new { CodI = LivroDto.CodI }, LivroCreateDto);
+                foreach (var autorId in LivroCreateDto.autores)
+                {
+                    var livroAutor = new LivroAutorDto
+                    {
+                        CodAu = autorId,
+                        CodI = livroId,
+                    };
+                    await _livroAutorUseCase.AdicionarAsync(livroAutor);
+                }
+
+                return CreatedAtAction(nameof(GetAssunto), new { CodI = LivroDto.CodI }, LivroCreateDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("updateLivro")]
         [Authorize]
         public async Task<ActionResult> UpdateLivro(int CodI, [FromBody] LivroCreateDto LivroCreateDto)
         {
-            var LivroDto = new LivroDto()
+            try
             {
-                CodI = CodI,
-                Editora = LivroCreateDto.Editora,
-                Edicao = LivroCreateDto.Edicao,
-                AnoPublicacao = LivroCreateDto.AnoPublicacao,
-                Titulo = LivroCreateDto.Titulo
-            };
-            
-            await _livroUseCase.AtualizarAsync(LivroDto);
-
-            await _livroAssuntoUseCase.RemoveAsync(CodI);
-
-            foreach (var assuntoId in LivroCreateDto.assuntos)
-            {
-                var livroAssunto = new LivroAssuntoDto
+                var LivroDto = new LivroDto()
                 {
-                    codAs = assuntoId,
                     CodI = CodI,
+                    Editora = LivroCreateDto.Editora,
+                    Edicao = LivroCreateDto.Edicao,
+                    AnoPublicacao = LivroCreateDto.AnoPublicacao,
+                    Titulo = LivroCreateDto.Titulo
                 };
-                await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
-            }
 
-            await _livroAutorUseCase.RemoveAsync(CodI);
+                await _livroUseCase.AtualizarAsync(LivroDto);
 
-            foreach (var autorId in LivroCreateDto.autores)
-            {
-                var livroAutor = new LivroAutorDto
+                await _livroAssuntoUseCase.RemoveAsync(CodI);
+
+                foreach (var assuntoId in LivroCreateDto.assuntos)
                 {
-                    CodAu = autorId,
-                    CodI = CodI,
-                };
-                await _livroAutorUseCase.AdicionarAsync(livroAutor);
-            }
+                    var livroAssunto = new LivroAssuntoDto
+                    {
+                        codAs = assuntoId,
+                        CodI = CodI,
+                    };
+                    await _livroAssuntoUseCase.AdicionarAsync(livroAssunto);
+                }
 
-            return NoContent();
+                await _livroAutorUseCase.RemoveAsync(CodI);
+
+                foreach (var autorId in LivroCreateDto.autores)
+                {
+                    var livroAutor = new LivroAutorDto
+                    {
+                        CodAu = autorId,
+                        CodI = CodI,
+                    };
+                    await _livroAutorUseCase.AdicionarAsync(livroAutor);
+                }
+
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPost("createTipoVendaLivro")]
         [Authorize]
         public async Task<ActionResult> createTipoVendaLivro([FromBody] LivroTipoVendaDto LivroTipoVendaDto)
         {
-            await _livroTipoVendaUseCase.AdicionarAsync(LivroTipoVendaDto);
-
-            return NoContent();
+            try
+            {
+                await _livroTipoVendaUseCase.AdicionarAsync(LivroTipoVendaDto);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPost("deleteTipoVendaLivro")]
         [Authorize]
         public async Task<ActionResult> deleteTipoVendaLivro([FromBody] LivroTipoVendaDto LivroTipoVendaDto)
         {
-            await _livroTipoVendaUseCase.RemoverAsync(LivroTipoVendaDto);
-
-            return NoContent();
+            try
+            {
+                await _livroTipoVendaUseCase.RemoverAsync(LivroTipoVendaDto);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
-        [HttpPost("getTipoVendaLivro")]
+        [HttpGet("getTipoVendaLivro")]
         [Authorize]
         public async Task<ActionResult> getTipoVendaLivro(int CodI)
         {
-            var TipoVendasLivro = await _livroTipoVendaUseCase.ObterTipoVendaAsync(CodI);
-
-            return Ok(TipoVendasLivro);
+            try
+            {
+                var TipoVendasLivro = await _livroTipoVendaUseCase.ObterTipoVendaAsync(CodI);
+                return Ok(TipoVendasLivro);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("deleteLivro")]
         [Authorize]
         public async Task<ActionResult> DeleteLivro(int CodI)
         {
-            await _livroUseCase.RemoverAsync(CodI);
-            return NoContent();
+            try
+            {
+                await _livroUseCase.RemoverAsync(CodI);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
 
@@ -170,129 +259,315 @@ namespace TJRJ.Livros.API.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<AssuntoDto>>> GetAssuntos()
         {
-            var Assuntos = await _assuntoUseCase.ObterTodosAsync();
-            return Ok(Assuntos);
+            try
+            {
+                var Assuntos = await _assuntoUseCase.ObterTodosAsync();
+                return Ok(Assuntos);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+
+           
         }
 
         [HttpGet("getassunto")]
         [Authorize]
         public async Task<ActionResult<AssuntoDto>> GetAssunto(int CodI)
         {
-            var Assunto = await _assuntoUseCase.ObterPorIdAsync(CodI);
-            if (Assunto == null) return NotFound();
+            try
+            {
+                var Assunto = await _assuntoUseCase.ObterPorIdAsync(CodI);
+                if (Assunto == null) return NotFound();
 
-            return Ok(Assunto);
+                return Ok(Assunto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+
         }
 
         [HttpPost("createAssunto")]
         [Authorize]
         public async Task<ActionResult> CreateAssunto([FromBody] AssuntoDto AssuntoDto)
         {
-            await _assuntoUseCase.AdicionarAsync(AssuntoDto);
-            return CreatedAtAction(nameof(GetAssunto), new { codAs = AssuntoDto.codAs }, AssuntoDto);
+            try
+            {
+                await _assuntoUseCase.AdicionarAsync(AssuntoDto);
+                return CreatedAtAction(nameof(GetAssunto), new { codAs = AssuntoDto.codAs }, AssuntoDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("updateAssunto")]
         [Authorize]
         public async Task<ActionResult> UpdateAssunto(int codAs, [FromBody] AssuntoDto AssuntoDto)
         {
-            AssuntoDto.codAs = codAs;
-            await _assuntoUseCase.AtualizarAsync(AssuntoDto);
-            return NoContent();
+            try
+            {
+                AssuntoDto.codAs = codAs;
+                await _assuntoUseCase.AtualizarAsync(AssuntoDto);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("deleteAssunto")]
         [Authorize]
         public async Task<ActionResult> DeleteAssunto(int CodA)
         {
-            await _assuntoUseCase.RemoverAsync(CodA);
-            return NoContent();
+            try
+            {
+                await _assuntoUseCase.RemoverAsync(CodA);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpGet("getAllTipoVenda")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<TipoVendaDto>>> GetTipoVendas()
         {
-            var TipoVendas = await _tipoVendaUseCase.ObterTodosAsync();
-            return Ok(TipoVendas);
+            try
+            {
+                var TipoVendas = await _tipoVendaUseCase.ObterTodosAsync();
+                return Ok(TipoVendas);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpGet("gettipovenda")]
         [Authorize]
         public async Task<ActionResult<LivroDto>> GetTipoVenda(int TipoVenda_CodI)
         {
-            var TipoVenda = await _tipoVendaUseCase.ObterPorIdAsync(TipoVenda_CodI);
-            if (TipoVenda == null) return NotFound();
+            try
+            {
+                var TipoVenda = await _tipoVendaUseCase.ObterPorIdAsync(TipoVenda_CodI);
+                if (TipoVenda == null) return NotFound();
 
-            return Ok(TipoVenda);
+                return Ok(TipoVenda);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPost("createTipoVenda")]
         [Authorize]
         public async Task<ActionResult> CreateTipoVenda([FromBody] TipoVendaDto TipoVendaDto)
         {
-            await _tipoVendaUseCase.AdicionarAsync(TipoVendaDto);
-            return CreatedAtAction(nameof(GetTipoVenda), new { CodI = TipoVendaDto.TipoVenda_CodI }, TipoVendaDto);
+            try
+            {
+                await _tipoVendaUseCase.AdicionarAsync(TipoVendaDto);
+                return CreatedAtAction(nameof(GetTipoVenda), new { CodI = TipoVendaDto.TipoVenda_CodI }, TipoVendaDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("updateTipoVenda")]
         [Authorize]
         public async Task<ActionResult> UpdateTipoVenda(int TipoVenda_CodI, [FromBody] TipoVendaDto TipoVendaDto)
         {
-            TipoVendaDto.TipoVenda_CodI = TipoVenda_CodI;
-            await _tipoVendaUseCase.AtualizarAsync(TipoVendaDto);
-            return NoContent();
+            try
+            {
+                TipoVendaDto.TipoVenda_CodI = TipoVenda_CodI;
+                await _tipoVendaUseCase.AtualizarAsync(TipoVendaDto);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpPut("deleteTipoVenda")]
         [Authorize]
         public async Task<ActionResult> DeleteTipoVenda(int TipoVenda_CodI)
         {
-            await _tipoVendaUseCase.RemoverAsync(TipoVenda_CodI);
-            return NoContent();
+            try
+            {
+                await _tipoVendaUseCase.RemoverAsync(TipoVenda_CodI);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
 
         [HttpGet("getAllautor")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<AutorDto>>> GetAutores()
         {
-            var Autores = await _autorUseCase.ObterTodosAsync();
-            return Ok(Autores);
+            try
+            {
+                var Autores = await _autorUseCase.ObterTodosAsync();
+                return Ok(Autores);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+        }
+
+        [HttpGet("getAutorByLivro")]
+        [Authorize]
+        public async Task<List<int>> GetAutorByLivro(int CodI)
+        {
+            return await _autorUseCase.ObterTodosByLivroAsync(CodI);
+        }
+
+        [HttpGet("getAssuntoByLivro")]
+        [Authorize]
+        public async Task<List<int>> GetAssuntoByLivro(int CodI)
+        {
+            return await _assuntoUseCase.ObterTodosByLivroAsync(CodI);
         }
 
         [HttpGet("getautor")]
         [Authorize]
         public async Task<ActionResult<LivroDto>> GetAutor(int CodAu)
         {
-            var Autor = await _autorUseCase.ObterPorIdAsync(CodAu);
-            if (Autor == null) return NotFound();
+            try
+            {
+                var Autor = await _autorUseCase.ObterPorIdAsync(CodAu);
+                if (Autor == null) return NotFound();
 
-            return Ok(Autor);
+                return Ok(Autor);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+            
         }
 
         [HttpPost("createAutor")]
         [Authorize]
         public async Task<ActionResult> CreateAutor([FromBody] AutorDto AutorDto)
         {
-            await _autorUseCase.AdicionarAsync(AutorDto);
-            return CreatedAtAction(nameof(GetLivro), new { CodAu = AutorDto.CodAu }, AutorDto);
+            try
+            {
+                await _autorUseCase.AdicionarAsync(AutorDto);
+                return CreatedAtAction(nameof(GetLivro), new { CodAu = AutorDto.CodAu }, AutorDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+            
         }
 
         [HttpPut("updateAutor")]
         [Authorize]
         public async Task<ActionResult> UpdateAutor(int CodAu, [FromBody] AutorDto AutorDto)
         {
-            AutorDto.CodAu = CodAu;
-            await _autorUseCase.AtualizarAsync(AutorDto);
-            return NoContent();
+            try
+            {
+                AutorDto.CodAu = CodAu;
+                await _autorUseCase.AtualizarAsync(AutorDto);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+           
         }
 
         [HttpPut("deleteAutor")]
         [Authorize]
         public async Task<ActionResult> DeleteAutor(int CodAu)
         {
-            await _autorUseCase.RemoverAsync(CodAu);
-            return NoContent();
+            try
+            {
+                await _autorUseCase.RemoverAsync(CodAu);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
+            
         }
 
     }

@@ -18,12 +18,12 @@ namespace TJRJ.Livros.Application.UseCases
             _livroRepository = livroRepository;
         }
 
-        public async Task<LivroDto> ObterPorIdAsync(int CodI)
+        public async Task<LivroCreateDto> ObterPorIdAsync(int CodI)
         {
             var livro = await _livroRepository.ObterPorIdAsync(CodI);
             if (livro == null) return null;
 
-            return new LivroDto
+            return new LivroCreateDto
             {
                 CodI = livro.CodI,
                 Edicao = livro.Edicao,

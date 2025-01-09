@@ -7,14 +7,14 @@
   <div *ngFor="let livro of livros" class="mb-2">
     <p>
       {{ livro.titulo }} ({{ livro.anoPublicacao }})
-      <button class="btn btn-primary btn-sm ms-2"(click)="abrirEditarLivro(livro)">Editar</button>
-      <button class="btn btn-success btn-sm ms-2"(click)="abrirModalVenda(livro)" data-bs-toggle="modal" data-bs-target="#modalVenda">Venda</button>
+      <button class="btn btn-primary btn-sm ms-2" (click)="abrirModalEditar(livro)" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
+      <button class="btn btn-success btn-sm ms-2" (click)="abrirModalVenda(livro)" data-bs-toggle="modal" data-bs-target="#modalVenda">Venda</button>
       <button class="btn btn-danger btn-sm ms-2" (click)="excluirLivro(livro.codI)">Excluir</button>
     </p>
   </div>
 </div>
 
-<!-- Modal Bootstrap -->
+
 <div class="modal fade" id="adicionarLivroModal" tabindex="-1" aria-labelledby="adicionarLivroModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -63,6 +63,60 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarLabel">Editar Livro - {{ livroEditado?.titulo }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!--<div class="mb-3">
+    <label for="titulo2" class="form-label">Título</label>
+    <input type="text" id="titulo2" class="form-control" [(ngModel)]="livroEditado.titulo" name="titulo" />
+  </div>-->
+          <div class="mb-3">
+            <label for="editora" class="form-label">Editora</label>
+            <input type="text" id="editora" class="form-control" [(ngModel)]="livroEditado.editora" name="editora" />
+          </div>
+          <div class="mb-3">
+            <label for="edicao" class="form-label">Edição</label>
+            <input type="number" id="edicao" class="form-control" [(ngModel)]="livroEditado.edicao" name="edicao" />
+          </div>
+          <div class="mb-3">
+            <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
+            <input type="number" id="anoPublicacao" class="form-control" [(ngModel)]="livroEditado.anoPublicacao" name="anoPublicacao" />
+          </div>
+          <!-- Lista de autores -->
+          <div class="mb-3">
+            <label for="autores" class="form-label">Autores</label>
+            <select class="form-control" [(ngModel)]="livroSelecionado.autores" name="autores" multiple>
+              <option *ngFor="let autor of listaAutores" [value]="autor.codAu">
+                {{ autor.nome }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Lista de assuntos -->
+          <div class="mb-3">
+            <label for="assuntos" class="form-label">Assuntos</label>
+            <select class="form-control" [(ngModel)]="livroSelecionado.assuntos" name="assuntos" multiple>
+              <option *ngFor="let assunto of listaAssuntos" [value]="assunto.codAs">
+                {{ assunto.descricao }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" (click)="confirmarEdicao(livroSelecionado.codI)">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="modalVenda" tabindex="-1" aria-labelledby="modalVendaLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -74,16 +128,17 @@
       <div class="modal-body">
         <form>
           <div class="mb-3">
+            <input type="hidden" [(ngModel)]="venda.codI" name="codI" />
             <label for="tipoVenda" class="form-label">Tipo de Venda</label>
-            <!--<select id="tipoVenda"
+            <select id="tipoVenda"
                     class="form-select"
-                    [(ngModel)]="venda.tipo"
+                    [(ngModel)]="venda.tipoVenda_CodI"
                     name="tipoVenda"
                     required>
-              <option *ngFor="let tipo of tiposvenda" [value]="tipo.tipovenda_codI">{{ tipo.descricao }}</option>
-            </select>-->
+              <option *ngFor="let tipo of tiposvenda" [value]="tipo.tipoVenda_CodI">{{ tipo.descricao }}</option>
+            </select>
           </div>
-          <!--<div class="mb-3">
+          <div class="mb-3">
             <label for="valorVenda" class="form-label">Valor</label>
             <input type="number"
                    id="valorVenda"
@@ -91,8 +146,17 @@
                    [(ngModel)]="venda.valor"
                    name="valorVenda"
                    required />
-          </div>-->
+          </div>
         </form>
+        <div *ngIf="tiposVendaCadastrados.length > 0" class="mt-4">
+          <h6>Tipos de Venda Cadastrados</h6>
+          <ul class="list-group">
+            <li *ngFor="let tipo of tiposVendaCadastrados" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ tipo.descricao }} - R$ {{ tipo.valor | number: '1.2-2' }}
+              <button class="btn btn-danger btn-sm" (click)="removerTipoVenda(tipo.codI, tipo.tipoVenda_CodI)">Remover</button>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

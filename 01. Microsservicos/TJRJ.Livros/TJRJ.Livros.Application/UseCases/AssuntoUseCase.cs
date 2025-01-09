@@ -40,6 +40,12 @@ namespace TJRJ.Livros.Application.UseCases
             }).ToList();
         }
 
+        public async Task<List<int>> ObterTodosByLivroAsync(int CodI)
+        {
+            var assuntos = await _assuntoRepository.ObterTodosByLivroAsync(CodI);
+            return assuntos;
+        }
+
         public async Task AdicionarAsync(AssuntoDto assuntoDto)
         {
           var assunto = new Assunto

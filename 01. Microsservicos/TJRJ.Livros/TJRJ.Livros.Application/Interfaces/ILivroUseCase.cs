@@ -10,7 +10,7 @@ namespace TJRJ.Livros.Application.Interfaces
     public interface ILivroUseCase
     {
         Task<IEnumerable<LivroDto>> ObterTodosAsync();
-        Task<LivroDto> ObterPorIdAsync(int CodI);
+        Task<LivroCreateDto> ObterPorIdAsync(int CodI);
         Task AdicionarAsync(LivroDto livro);
         Task AtualizarAsync(LivroDto livro);
         Task RemoverAsync(int CodI);

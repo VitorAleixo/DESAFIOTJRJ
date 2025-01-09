@@ -11,6 +11,7 @@ namespace TJRJ.Livros.Application.Interfaces
     {
         Task<IEnumerable<AssuntoDto>> ObterTodosAsync();
         Task<AssuntoDto> ObterPorIdAsync(int assunto);
+        Task<List<int>> ObterTodosByLivroAsync(int CodI);
         Task AdicionarAsync(AssuntoDto assunto);
         Task AtualizarAsync(AssuntoDto assunto);
         Task RemoverAsync(int assunto);

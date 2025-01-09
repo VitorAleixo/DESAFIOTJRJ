@@ -10,7 +10,8 @@ namespace TJRJ.Livros.Application.DTOs.Sub
     public class LivroTipoVendaDto
     {
         public int TipoVenda_CodI { get; set; }
-        public int CodI { get; set; }
+        public int codI { get; set; }
         public double Valor { get; set; }
+        public string Descricao { get; set; }
     }
 }

@@ -21,13 +21,15 @@ namespace TJRJ.Livros.Application.UseCases.Relations
 
         public async Task<IEnumerable<LivroTipoVendaDto>> ObterTipoVendaAsync(int CodI)
         {
+
             var tiposVenda = await _livroTipoVendaRepository.ObterTipoVendaAsync(CodI);
 
             return tiposVenda.Select(tiposVenda => new LivroTipoVendaDto
             {
-                CodI = tiposVenda.Livro_CodI,
+                codI = tiposVenda.Livro_CodI,
                 TipoVenda_CodI = tiposVenda.TipoVenda_CodI,
                 Valor = tiposVenda.Valor,
+                Descricao = tiposVenda.Descricao
             }).ToList();
         }
 
@@ -35,14 +37,22 @@ namespace TJRJ.Livros.Application.UseCases.Relations
 
         public async Task AdicionarAsync(LivroTipoVendaDto livroTipoVendaDto)
         {
+            if (livroTipoVendaDto.Valor <= 0)
+            {
+                throw new ArgumentException("Informe um valor válido.");
+            }
+            else if (livroTipoVendaDto.TipoVenda_CodI <= 0)
+            {
+                throw new ArgumentException("Informe um tipo de venda válido.");
+            }
             var tipoVenda = new LivroTipoVenda
             {
                 TipoVenda_CodI = livroTipoVendaDto.TipoVenda_CodI,
-                Livro_CodI = livroTipoVendaDto.CodI,
-                Valor = livroTipoVendaDto.Valor
+                Livro_CodI = livroTipoVendaDto.codI,
+                Valor = livroTipoVendaDto.Valor,
             };
 
-            var tiposVenda = await _livroTipoVendaRepository.ObterTipoVendaAsync(livroTipoVendaDto.CodI);
+            var tiposVenda = await _livroTipoVendaRepository.ObterTipoVendaAsync(livroTipoVendaDto.codI);
 
             foreach(var ITEMS in tiposVenda)
             {
@@ -61,7 +71,7 @@ namespace TJRJ.Livros.Application.UseCases.Relations
             var tipoVenda = new LivroTipoVenda
             {
                 TipoVenda_CodI = livroTipoVendaDto.TipoVenda_CodI,
-                Livro_CodI = livroTipoVendaDto.CodI,
+                Livro_CodI = livroTipoVendaDto.codI,
             };
 
             await _livroTipoVendaRepository.RemoveAsync(tipoVenda);

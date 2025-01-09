@@ -24,6 +24,16 @@ namespace TJRJ.Livros.Infrastructure.Repositories
             return await _context.Assunto.ToListAsync();
         }
 
+        public async Task<List<int>> ObterTodosByLivroAsync(int CodI)
+        {
+            var autorIds = await _context.LivroAssunto
+                .Where(la => la.Livro_CodI == CodI)
+                .Select(la => la.Assunto_codAs) 
+            .ToListAsync();
+
+            return autorIds;
+        }
+
         public async Task<Assunto> ObterPorIdAsync(int CodAu)
         {
             return await _context.Assunto.FindAsync(CodAu);

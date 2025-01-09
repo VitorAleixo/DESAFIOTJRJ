@@ -17,6 +17,7 @@ export class TipoVendasComponent implements OnInit {
   novoTipoVenda: TipoVenda = {
     tipoVenda_CodI: 0,
     codI: 0,
+    valor: 0,
     descricao: '',
   };
 
@@ -39,6 +40,7 @@ export class TipoVendasComponent implements OnInit {
     const tipovendaParaEnviar = {
       codI: 0,
       tipoVenda_CodI: 0,
+      valor: 0,
       descricao: this.novoTipoVenda.descricao,
     };
 
@@ -57,11 +59,13 @@ export class TipoVendasComponent implements OnInit {
     this.novoTipoVenda = {
       tipoVenda_CodI: 0,
       codI: 0,
+      valor: 0,
       descricao: '',
     };
   }
 
   excluirTipoVenda(id: number) {
+    if (confirm('Tem certeza que deseja remover esse tipo de venda?')) {
     this.tipovendaService.excluir(id).subscribe({
       next: () => {
         alert('TipoVenda excluído com sucesso!');
@@ -69,5 +73,6 @@ export class TipoVendasComponent implements OnInit {
       },
       error: (err) => console.error('Erro ao excluir livro:', err),
     });
+    }
   }
 }

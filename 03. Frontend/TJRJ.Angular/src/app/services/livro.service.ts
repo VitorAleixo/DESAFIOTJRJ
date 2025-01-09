@@ -15,6 +15,11 @@ export class LivroService {
     return this.http.get<Livro[]>(this.apiUrl + "/getAlllivros");
   }
 
+  obterLivro(codI: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/getLivro?CodI=${codI}`);
+  }
+
+
   adicionar(livro: Livro): Observable<void> {
     const livroParaEnviar = {
       codI: livro.codI,

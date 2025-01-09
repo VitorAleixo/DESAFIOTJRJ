@@ -20,9 +20,22 @@ namespace TJRJ.Livros.Infrastructure.Repositories.Relations
             _context = context;
         }
 
-        public async Task<IEnumerable<LivroTipoVenda>> ObterTipoVendaAsync(int CodI)
+        public async Task<IEnumerable<LivroTipoVendaReturn>> ObterTipoVendaAsync(int CodI)
         {
-            return await _context.LivroTipoVenda.Where(la => la.Livro_CodI == CodI).ToListAsync();
+            var query = from livroTipoVenda in _context.LivroTipoVenda
+                        join tipoVenda in _context.TipoVenda on livroTipoVenda.TipoVenda_CodI equals tipoVenda.TipoVenda_CodI
+                        where livroTipoVenda.Livro_CodI == CodI
+                        select new LivroTipoVendaReturn
+                        {
+                            Livro_CodI = livroTipoVenda.Livro_CodI,
+                            TipoVenda_CodI = livroTipoVenda.TipoVenda_CodI,
+                            Valor = livroTipoVenda.Valor,
+                            Descricao = tipoVenda.Descricao // Adicionando a descrição do tipo de venda
+                        };
+
+            return await query.ToListAsync();
+
+            //return await _context.LivroTipoVenda.Where(la => la.Livro_CodI == CodI).ToListAsync();
         }
 
 

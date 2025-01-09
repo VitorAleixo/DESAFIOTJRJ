@@ -61,6 +61,7 @@ export class AutoresComponent implements OnInit {
   }
 
   excluirAutor(id: number) {
+    if (confirm('Tem certeza que deseja remover esse autor?')) {
     this.autorService.excluir(id).subscribe({
       next: () => {
         alert('Autor excluído com sucesso!');
@@ -68,5 +69,6 @@ export class AutoresComponent implements OnInit {
       },
       error: (err) => console.error('Erro ao excluir livro:', err),
     });
+    }
   }
 }

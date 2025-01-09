@@ -59,6 +59,7 @@ export class AssuntosComponent implements OnInit {
   }
 
   excluirAssunto(id: number) {
+    if (confirm('Tem certeza que deseja remover esse assunto?')) {
     this.assuntoService.excluir(id).subscribe({
       next: () => {
         alert('Assunto excluído com sucesso!');
@@ -66,5 +67,6 @@ export class AssuntosComponent implements OnInit {
       },
       error: (err) => console.error('Erro ao excluir livro:', err),
     });
+    }
   }
 }

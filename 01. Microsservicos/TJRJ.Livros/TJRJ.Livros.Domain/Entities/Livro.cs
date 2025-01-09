@@ -64,4 +64,12 @@ namespace TJRJ.Livros.Domain.Entities
         public int TipoVenda_CodI { get; set; }
         public double Valor { get; set; }
     }
+
+    public class LivroTipoVendaReturn
+    {
+        public int Livro_CodI { get; set; }
+        public int TipoVenda_CodI { get; set; }
+        public double Valor { get; set; }
+        public string Descricao { get; set; }
+    }
 }

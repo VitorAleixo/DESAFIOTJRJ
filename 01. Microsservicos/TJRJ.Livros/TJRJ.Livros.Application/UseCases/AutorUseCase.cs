@@ -30,6 +30,12 @@ namespace TJRJ.Livros.Application.UseCases
             };
         }
 
+        public async Task<List<int>> ObterTodosByLivroAsync(int CodI)
+        {
+            var autores = await _autorRepository.ObterTodosByLivroAsync(CodI);
+            return autores;
+        }
+
         public async Task<IEnumerable<AutorDto>> ObterTodosAsync()
         {
             var autores = await _autorRepository.ObterTodosAsync();
