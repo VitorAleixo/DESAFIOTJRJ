@@ -4,15 +4,24 @@
     Adicionar Novo Autor
   </button>
 
-  <div *ngFor="let autor of autores" class="mb-2">
-    <p>
-      {{ autor.nome}}
-      <button class="btn btn-danger btn-sm ms-2" (click)="excluirAutor(autor.codAu)">Excluir</button>
-    </p>
-  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let autor of autores">
+        <td>{{ autor.nome }}</td>
+        <td style="text-align:right">
+          <button class="btn btn-danger btn-sm ms-2" (click)="excluirAutor(autor.codAu)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<!-- Modal Bootstrap -->
 <div class="modal fade" id="adicionarAutorModal" tabindex="-1" aria-labelledby="adicionarAutorModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -35,4 +44,3 @@
     </div>
   </div>
 </div>
-

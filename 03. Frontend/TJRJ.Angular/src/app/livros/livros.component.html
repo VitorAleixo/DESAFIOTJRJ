@@ -1,18 +1,42 @@
 <div>
   <h1>Livros</h1>
+  <div class="nav-links">
+    <a routerLink="/assuntos">Assuntos</a>
+    <a routerLink="/autores">Autores</a>
+    <a routerLink="/tipovendas">Tipos de Vendas</a>
+  </div>
+  <br />
   <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#adicionarLivroModal">
     Adicionar Novo Livro
   </button>
 
-  <div *ngFor="let livro of livros" class="mb-2">
-    <p>
-      {{ livro.titulo }} ({{ livro.anoPublicacao }})
-      <button class="btn btn-primary btn-sm ms-2" (click)="abrirModalEditar(livro)" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
-      <button class="btn btn-success btn-sm ms-2" (click)="abrirModalVenda(livro)" data-bs-toggle="modal" data-bs-target="#modalVenda">Venda</button>
-      <button class="btn btn-danger btn-sm ms-2" (click)="excluirLivro(livro.codI)">Excluir</button>
-    </p>
-  </div>
-  <button (click)="gerarRelatorio()">Gerar Relatório</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Editora</th>
+        <th>Edição</th>
+        <th>Ano de Publicação</th>
+        <th></th>  
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let livro of livros">
+        <td>{{ livro.titulo }}</td>
+        <td>{{ livro.editora }}</td>
+        <td>{{ livro.edicao }}</td>
+        <td>{{ livro.anoPublicacao }}</td>
+        <td style="text-align:right">
+          <button class="btn btn-primary btn-sm ms-2" (click)="abrirModalEditar(livro)" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
+          <button class="btn btn-success btn-sm ms-2" (click)="abrirModalVenda(livro)" data-bs-toggle="modal" data-bs-target="#modalVenda">Venda</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="excluirLivro(livro.codI)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <button class="btn btn-secondary mb-3" (click)="gerarRelatorio()">Gerar Relatório</button>
 </div>
 
 
