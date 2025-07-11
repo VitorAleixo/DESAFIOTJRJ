@@ -1,4 +1,4 @@
-Esse projeto foi criado em C# (ASP .NET CORE 8) e Angular 19.
+Esse projeto foi criado em C# (ASP .NET CORE 8) e Angular 19.    
 
 Demais frameworks / utilidades no projeto:
 - Token JWT para autenticação de usuário
